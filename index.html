@@ -39,6 +39,15 @@
         overflow-x: hidden;
       }
 
+
+      const styles = `
+.section {
+  opacity: 0;
+  transform: translateY(50px);
+  will-change: opacity, transform;
+}
+`;
+      
       /* Updated Navigation */
       nav {
         position: fixed;
@@ -1171,71 +1180,86 @@ mobileMenu.addEventListener("click", (event) => {
         });
       });
 
-      // JavaScript for advanced animations and scroll-triggered effects
-      document.addEventListener("DOMContentLoaded", () => {
-        const sections = document.querySelectorAll(".section");
-
-        const observerOptions = {
-          root: null,
-          rootMargin: "0px",
-          threshold: 0.1,
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.style.opacity = "1";
-            }
-          });
-        }, observerOptions);
-
-        sections.forEach((section) => {
-          observer.observe(section);
-        });
-
-        function animateOnScroll() {
-          const animatedElements =
-            document.querySelectorAll(".animate-on-scroll");
-
-          const observerOptions = {
-            root: null,
-            rootMargin: "0px",
-            threshold: 0.1,
-          };
-
-          const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                const element = entry.target;
-                const animationType = element.dataset.animation || "fade-in";
-
-                element.classList.add("is-visible", animationType);
-
-                // Optional: Stop observing after animation
-                observer.unobserve(element);
-              }
-            });
-          }, observerOptions);
-
-          // Observe all elements with animate-on-scroll class
-          animatedElements.forEach((element) => {
-            observer.observe(element);
-          });
+     document.addEventListener("DOMContentLoaded", () => {
+  const sections = document.querySelectorAll(".section");
+  
+  // Framer Motion-like Intersection Observer
+  const createScrollAnimation = (options = {}) => {
+    const defaultOptions = {
+      threshold: 0.1,
+      once: true,
+      animations: {
+        initial: { opacity: 0, y: 50 },
+        animate: { opacity: 1, y: 0 },
+        transition: {
+          duration: 0.6,
+          ease: "easeOut"
         }
+      }
+    };
 
-        // Optional: Add hover effects
-        sections.forEach((section) => {
-          section.addEventListener("mouseenter", () => {
-            section.style.transform = "scale(1.02)";
-            section.style.boxShadow = "0 15px 40px rgba(34, 211, 238, 0.3)";
-          });
+    const config = { ...defaultOptions, ...options };
 
-          section.addEventListener("mouseleave", () => {
-            section.style.transform = "scale(1)";
-            section.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.5)";
-          });
-        });
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const element = entry.target;
+          
+          // Apply Framer Motion-like animation styles
+          element.style.opacity = config.animations.animate.opacity;
+          element.style.transform = `translateY(${config.animations.animate.y}px)`;
+          element.style.transition = `
+            opacity ${config.animations.transition.duration}s ${config.animations.transition.ease},
+            transform ${config.animations.transition.duration}s ${config.animations.transition.ease}
+          `;
+
+          if (config.once) {
+            observer.unobserve(element);
+          }
+        } else if (!config.once) {
+          // Revert to initial state if not using 'once' mode
+          element.style.opacity = config.animations.initial.opacity;
+          element.style.transform = `translateY(${config.animations.initial.y}px)`;
+        }
       });
+    }, {
+      threshold: config.threshold
+    });
+
+    // Observe sections
+    sections.forEach(section => observer.observe(section));
+
+    return observer;
+  };
+
+  // Example usage with custom animation
+  createScrollAnimation({
+    threshold: 0.2,
+    animations: {
+      initial: { opacity: 0, y: 100 },
+      animate: { opacity: 1, y: 0 },
+      transition: {
+        duration: 0.8,
+        ease: "cubic-bezier(0.4, 0, 0.2, 1)"
+      }
+    }
+  });
+
+  // Optional: Add interactive hover effects
+  sections.forEach(section => {
+    section.addEventListener("mouseenter", () => {
+      section.style.transform = "scale(1.02)";
+      section.style.boxShadow = "0 15px 40px rgba(34, 211, 238, 0.3)";
+    });
+
+    section.addEventListener("mouseleave", () => {
+      section.style.transform = "scale(1)";
+      section.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.1)";
+    });
+  });
+});
+
+
     </script>
   </body>
 </html>
