@@ -1052,13 +1052,37 @@
       });
 
       // Mobile menu functionality
-      const hamburger = document.querySelector(".hamburger");
-      const mobileMenu = document.querySelector(".mobile-menu");
+     const hamburger = document.querySelector(".hamburger");
+const mobileMenu = document.querySelector(".mobile-menu");
 
-      hamburger.addEventListener("click", () => {
-        hamburger.classList.toggle("active");
-        mobileMenu.classList.toggle("active");
-      });
+// Toggle menu when hamburger is clicked
+hamburger.addEventListener("click", () => {
+  hamburger.classList.toggle("active");
+  mobileMenu.classList.toggle("active");
+});
+
+// Close menu when clicking outside of it
+document.addEventListener("click", (event) => {
+  const isClickInsideMenu = mobileMenu.contains(event.target);
+  const isClickOnHamburger = hamburger.contains(event.target);
+
+  if (!isClickInsideMenu && !isClickOnHamburger) {
+    hamburger.classList.remove("active");
+    mobileMenu.classList.remove("active");
+  }
+});
+
+// Optional: Close menu when a menu item is clicked
+mobileMenu.addEventListener("click", (event) => {
+  if (event.target.tagName === 'A') {
+    hamburger.classList.remove("active");
+    mobileMenu.classList.remove("active");
+  }
+});
+
+
+
+
 
       // FAQ functionality
       document.querySelectorAll(".faq-question").forEach((question) => {
