@@ -4,26 +4,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gen AI Network</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap"
+    />
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
-
       :root {
-        --primary: #6366f1;
-        --secondary: #22d3ee;
+        --primary: #ffd700; /* Yellow */
+        --secondary: #ffa500; /* Orange */
+        --accent: #ff6b6b; /* Coral */
         --background: #0a0a0a;
-        --text: #ffffff;
-        --card-bg: #1a1a1a;
-      }
-
-      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
-
-      :root {
-        --primary: #6366f1;
-        --secondary: #22d3ee;
-        --background: #0a0a0a;
-        --text: #ffffff;
-        --card-bg: #1a1a1a;
+        --text: rgba(255, 255, 255, 0.95);
+        --card-bg: rgba(255, 255, 255, 0.05);
+        --glass-bg: rgba(255, 255, 255, 0.02);
+        --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+        --border-radius: 1.5rem;
       }
 
       * {
@@ -37,304 +35,7 @@
         background: var(--background);
         color: var(--text);
         overflow-x: hidden;
-      }
-
-
-      const styles = `
-.section {
-  opacity: 0;
-  transform: translateY(50px);
-  will-change: opacity, transform;
-}
-`;
-      
-      /* Updated Navigation */
-      nav {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        padding: 1.5rem;
-        background: rgba(10, 10, 10, 0.8);
-        backdrop-filter: blur(10px);
-        z-index: 1000;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .logo {
-        height: 50px;
-        width: auto;
-      }
-
-      .nav-links {
-        display: flex;
-        gap: 2rem;
-        align-items: center;
-      }
-
-      .hamburger {
-        display: none;
-        flex-direction: column;
-        gap: 6px;
-        cursor: pointer;
-        z-index: 2000;
-        background: rgba(10, 10, 10, 0.8);
-        backdrop-filter: blur(30px);
-      }
-
-      .hamburger span {
-        width: 30px;
-        height: 2px;
-        background: var(--text);
-        transition: all 0.3s ease;
-      }
-
-      .mobile-menu {
-        display: none;
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 70%;
-        height: 100vh;
-        background: rgba(10, 10, 10, 0.95);
-        backdrop-filter: blur(10px);
-        padding: 6rem 2rem;
-        transition: right 0.3s ease;
-        z-index: 2000;
-      }
-
-      .mobile-menu.active {
-        right: 0;
-      }
-
-      /* Updated Hero Section */
-      .hero-buttons {
-        display: flex;
-        gap: 1.5rem;
-        justify-content: center;
-        z-index: 700;
-      }
-
-      .cta-button.outline {
-        color: #22d3ee; /* Text color */
-        padding: 2px;
-        border-radius: 15px;
-        position: relative;
-        background: transparent; /* Make background transparent */
-        border: double 2px transparent; /* Use double border for gradient effect */
-        background-image: linear-gradient(#1a1a1a, #1a1a1a),
-          /* Background color */
-            linear-gradient(45deg, #6366f1, #1a1a1a, #45b7d1); /* Border gradient */
-        background-origin: border-box;
-        background-clip: padding-box, border-box;
-        margin-left: 20px;
-        padding: 0.5rem 2rem;
-        font-size: 1.2rem;
-        z-index: 700;
-        margin: 20px;
-      }
-
-      /* Reviews Section */
-      .reviews {
-        padding: 6rem 2rem;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .review-cards {
-        display: flex;
-        gap: 2rem;
-        overflow-x: auto;
-        padding: 2rem 0;
-        scroll-snap-type: x mandatory;
-      }
-
-      .review-card {
-        min-width: 300px;
-        background: var(--card-bg);
-        padding: 2rem;
-        border-radius: 20px;
-        scroll-snap-align: start;
-        transform-style: preserve-3d;
-        transition: transform 0.5s ease;
-      }
-
-      .review-card:hover {
-        transform: translateZ(20px) rotateX(5deg) rotateY(5deg);
-      }
-
-      .reviewer-image {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        margin-bottom: 1rem;
-        background: linear-gradient(45deg, var(--primary), var(--secondary));
-      }
-
-      /* Partners Section */
-      .partners {
-        padding: 6rem 2rem;
-        background: linear-gradient(
-          45deg,
-          rgba(99, 102, 241, 0.05),
-          rgba(34, 211, 238, 0.05)
-        );
-      }
-
-      .partners-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-        gap: 30px; /* Increased gap to 30px */
-        max-width: 100%;
-        margin: 0 auto;
-        align-items: center;
-        justify-items: center;
-      }
-
-      .partner-logo {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        max-height: 30px; /* Set max height to 30px */
-        transition: transform 0.3s ease;
-      }
-
-      .partner-logo img {
-        max-height: 100px; /* Ensure images are also max 30px high */
-        max-width: 100%;
-        object-fit: contain; /* Maintains aspect ratio */
-      }
-
-      .partner-logo:hover {
-        transform: scale(1.05);
-      }
-
-      /* FAQ Section */
-      .faq {
-        padding: 6rem 2rem;
-      }
-
-      .faq-container {
-        max-width: 800px;
-        margin: 0 auto;
-      }
-
-      .faq-item {
-        background: var(--card-bg);
-        border-radius: 10px;
-        margin-bottom: 1rem;
-        overflow: hidden;
-      }
-
-      .faq-question {
-        padding: 1.5rem;
-        cursor: pointer;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        transition: background-color 0.3s ease;
-      }
-
-      .faq-question:hover {
-        background-color: rgba(255, 255, 255, 0.05);
-      }
-
-      .faq-answer {
-        padding: 0 1.5rem;
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.3s ease, padding 0.3s ease;
-      }
-
-      .faq-item.active .faq-answer {
-        padding: 1.5rem;
-        max-height: 500px;
-      }
-
-      /* Futuristic Animations */
-      .glowing-border {
-        position: relative;
-      }
-
-      .glowing-border::after {
-        content: "";
-        position: absolute;
-        top: -2px;
-        left: -2px;
-        right: -2px;
-        bottom: -2px;
-        background: linear-gradient(45deg, var(--primary), var(--secondary));
-        border-radius: inherit;
-        z-index: -1;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-      }
-
-      .glowing-border:hover::after {
-        opacity: 1;
-      }
-
-      .floating {
-        animation: floating 3s ease-in-out infinite;
-      }
-
-      @keyframes floating {
-        0%,
-        100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-20px);
-        }
-      }
-
-      /* Responsive Design */
-      @media (max-width: 768px) {
-        .nav-links {
-          display: none;
-        }
-
-        .hamburger {
-          display: flex;
-        }
-
-        .mobile-menu {
-          display: flex;
-          flex-direction: column;
-          gap: 2rem;
-        }
-
-        .mobile-menu a {
-          color: var(--text);
-          text-decoration: none;
-          font-size: 1.2rem;
-        }
-
-        .hamburger.active span:nth-child(1) {
-          transform: rotate(45deg) translate(8px, 8px);
-        }
-
-        .hamburger.active span:nth-child(2) {
-          opacity: 0;
-        }
-
-        .hamburger.active span:nth-child(3) {
-          transform: rotate(-45deg) translate(8px, -8px);
-        }
-      }
-
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: "Inter", sans-serif;
-      }
-
-      body {
-        background: var(--background);
-        color: var(--text);
-        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
       }
 
       /* Navigation */
@@ -342,36 +43,63 @@
         position: fixed;
         top: 0;
         width: 100%;
-        padding: 1.5rem;
-        background: rgba(10, 10, 10, 0.8);
-        backdrop-filter: blur(10px);
+        padding: 1rem;
+        background: var(--glass-bg);
+        backdrop-filter: blur(16px);
         z-index: 1000;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       }
 
       .logo {
-        font-size: 1.5rem;
-        font-weight: 700;
-        background: linear-gradient(45deg, var(--primary), var(--secondary));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        height: 50px;
+        padding: 1rem;
+        filter: drop-shadow(0 0 10px var(--primary));
       }
 
       .nav-links {
         display: flex;
         gap: 2rem;
+        align-items: center;
       }
 
       .nav-links a {
         color: var(--text);
         text-decoration: none;
-        transition: color 0.3s ease;
+        position: relative;
+        padding: 0.5rem 1rem;
+        transition: all 0.3s ease;
       }
 
-      .nav-links a:hover {
-        color: var(--secondary);
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--gradient);
+        transition: width 0.3s ease;
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+      }
+
+      .hamburger div {
+        width: 25px;
+        height: 3px;
+        background: var(--text);
+        transition: all 0.3s ease;
       }
 
       /* Hero Section */
@@ -380,7 +108,6 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        text-align: center;
         position: relative;
         overflow: hidden;
       }
@@ -393,92 +120,93 @@
       }
 
       .hero-content {
-        transition: all 1s ease;
+        margin-top: 200px;
         position: relative;
         z-index: 2;
-        max-width: 800px;
-        padding: 2rem;
+        text-align: center;
+        padding: 4rem;
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        border-radius: var(--border-radius);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 50px rgba(255, 215, 0, 0.1);
+        transform-style: preserve-3d;
       }
 
       h1 {
+        pa: 30px;
         font-size: 4rem;
         margin-bottom: 1.5rem;
-        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        background: var(--gradient);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        animation: glowPulse 2s infinite alternate;
+        line-height: 1.2;
+        text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+        font-family: "Space Grotesk", sans-serif;
       }
 
       .hero-subtitle {
         font-size: 1.5rem;
         margin-bottom: 2rem;
         opacity: 0.9;
+        max-width: 600px;
+        margin: 2rem auto;
       }
 
+      /* Buttons */
       .cta-button {
-        padding: 0.5rem 2rem;
-        font-size: 1.2rem;
-        background: linear-gradient(45deg, var(--primary), var(--secondary));
-        color: white;
+        position: relative;
+        padding: 1rem 2.5rem;
+        font-size: 1.1rem;
+        background: var(--gradient);
         border: none;
-        border-radius: 15px;
+        border-radius: 50px;
         cursor: pointer;
-        transition: transform 0.3s ease;
-        margin: 20px;
+        transition: all 0.3s ease;
+        overflow: hidden;
+        margin: 1rem;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
       }
 
-      .cta-button:hover {
-        transform: scale(1.05);
+      .cta-button::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: 0.5s;
       }
 
-      /* Features Section */
-      #features {
-        transition: all 1s ease;
+      .cta-button:hover::before {
+        left: 100%;
+      }
+
+      /* Sections */
+      .section {
         padding: 6rem 2rem;
+        text-align: center;
       }
 
       .section-title {
-        text-align: center;
         font-size: 2.5rem;
         margin-bottom: 3rem;
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-family: "Space Grotesk", sans-serif;
       }
 
-      .features p {
-        margin: 20px;
-      }
-
-      .features-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 2rem;
-        max-width: 1200px;
-        margin: 0 auto;
-      }
-
-      .feature-card {
-        background: var(--card-bg);
-        padding: 2rem;
-        border-radius: 20px;
-        text-align: center;
-        transition: transform 0.3s ease;
-      }
-
-      .feature-card:hover {
-        transform: translateY(-10px);
-      }
-
-      /* Showcase Section */
-      #showcase {
-        transition: all 1s ease;
-        padding: 6rem 2rem;
-        background: linear-gradient(
-          45deg,
-          rgba(99, 102, 241, 0.1),
-          rgba(34, 211, 238, 0.1)
-        );
-      }
-
-      .showcase-grid {
+      .features-grid,
+      .showcase-grid,
+      .partners-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         gap: 2rem;
@@ -486,49 +214,50 @@
         margin: 0 auto;
       }
 
-      .showcase-item {
-        background: var(--card-bg);
-        border-radius: 20px;
-        overflow: hidden;
-        transition: transform 0.3s ease;
-      }
-
-      .showcase-item:hover {
-        transform: scale(1.02);
-      }
-
-      .showcase-image {
-        width: 100%;
-        height: 200px;
-        background: linear-gradient(45deg, var(--primary), var(--secondary));
-      }
-
-      .showcase-content {
-        padding: 1.5rem;
-      }
-
-      /* Interactive Demo Section */
-      #demo {
-        transition: all 1s ease;
-        padding: 6rem 2rem;
-      }
-
-      .demo-container {
-        max-width: 800px;
-        margin: 0 auto;
+      .feature-card,
+      .showcase-item,
+      .partner-logo {
         background: var(--card-bg);
         padding: 2rem;
-        border-radius: 20px;
+        border-radius: var(--border-radius);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
       }
 
-      .demo-input {
-        width: 100%;
-        padding: 1rem;
+      .feature-card:hover,
+      .showcase-item:hover {
+        transform: translateY(-10px);
+      }
+
+      /* FAQ Section */
+      .faq-item {
+        background: var(--card-bg);
+        border-radius: var(--border-radius);
         margin-bottom: 1rem;
-        background: rgba(255, 255, 255, 0.1);
-        border: none;
-        border-radius: 10px;
-        color: var(--text);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .faq-question {
+        padding: 1.5rem;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .faq-answer {
+        padding: 0 1.5rem;
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .faq-item.active .faq-answer {
+        padding: 1.5rem;
+        max-height: 500px;
       }
 
       /* Footer */
@@ -539,7 +268,6 @@
       }
 
       .footer-content {
-        transition: all 1s ease;
         max-width: 1200px;
         margin: 0 auto;
         display: grid;
@@ -564,384 +292,180 @@
         opacity: 1;
       }
 
-      /* Home page specific styles */
-      #home {
-        font-size: 18px;
-        background: #ffffff;
-        color: #0a0a0a;
-        margin: 0 auto;
-        max-height: fit-content;
-        flex-direction: row;
-        padding: 60px 30px;
-      }
-
-      #home-image {
-        margin-top: 30px;
-      }
-
-      #home h2 {
-        font-size: 2.3em;
-        margin-bottom: 30px;
-      }
-
-      #home p {
-        font-size: 1em;
-        margin-bottom: 30px;
-      }
-
-      #learn-more p {
-        font-weight: 500;
-      }
-
-      .section {
-        flex-direction: column;
-        
-        margin: 0 auto;
-      }
-
-      .section-content {
-        flex: 1;
-        margin: 0 auto;
-        flex-direction: column;
-        padding: 40px 50px;
-        margin: 0 auto;
-      }
-
-      .section-image {
-        flex: 1;
-        margin: 10px;
-        text-align: right;
-        margin-top: 30px;
-        margin-right: 0 auto;
-      }
-
-      .section-image img {
-        max-width: 100%;
-        border-radius: 10px;
-        margin: 0 auto;
-      }
-
       /* Responsive Design */
       @media (max-width: 768px) {
-
-        #home {
-          margin: 0 auto;
-          max-height: fit-content;
-
-        }
         h1 {
           font-size: 2.5rem;
         }
-
-        .hero-subtitle {
-          font-size: 1.2rem;
+        .hero-content {
+          padding: 2rem;
         }
-
         .nav-links {
           display: none;
+          flex-direction: column;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          background: var(--glass-bg);
+          backdrop-filter: blur(16px);
+          padding: 1rem;
         }
-      }
-
-      /* Animation keyframes */
-      @keyframes slideInFromLeft {
-        0% {
-          opacity: 0;
-          transform: translateX(-100%) rotate(-10deg);
+        .nav-links.active {
+          display: flex;
         }
-        100% {
-          opacity: 1;
-          transform: translateX(0) rotate(0);
+        .hamburger {
+          display: flex;
         }
-      }
-
-      @keyframes slideInFromRight {
-        0% {
-          opacity: 0;
-          transform: translateX(100%) rotate(10deg);
+        .features-grid,
+        .showcase-grid,
+        .partners-grid {
+          grid-template-columns: 1fr;
         }
-        100% {
-          opacity: 1;
-          transform: translateX(0) rotate(0);
-        }
-      }
-
-      @keyframes fadeInUp {
-        0% {
-          opacity: 0;
-          transform: translateY(50px) scale(0.9);
-        }
-        100% {
-          opacity: 1;
-          transform: translateY(0) scale(1);
-        }
-      }
-
-      @keyframes popIn {
-        0% {
-          opacity: 0;
-          transform: scale(0.5);
-        }
-        70% {
-          opacity: 0.7;
-          transform: scale(1.1);
-        }
-        100% {
-          opacity: 1;
-          transform: scale(1);
-        }
-      }
-
-      @keyframes glowPulse {
-        0%,
-        100% {
-          text-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
-        }
-        50% {
-          text-shadow: 0 0 20px rgba(34, 211, 238, 0.8);
-        }
-      }
-
-      /* Animation classes */
-      .slide-left {
-        animation: slideInFromLeft 1s forwards;
-      }
-      .slide-right {
-        animation: slideInFromRight 1s forwards;
-      }
-      .fade-up {
-        animation: fadeInUp 1s forwards;
-      }
-      .pop-in {
-        animation: popIn 0.8s forwards;
-      }
-
-      /* Staggered delay classes */
-      .delay-1 {
-        animation-delay: 0.2s;
-      }
-      .delay-2 {
-        animation-delay: 0.4s;
-      }
-      .delay-3 {
-        animation-delay: 0.6s;
-      }
-      .delay-4 {
-        animation-delay: 0.8s;
       }
     </style>
   </head>
   <body>
     <nav>
-      <img src="Vector (3).png" " class="logo" />
-      <div class="hamburger">
-        <span></span>
-        <span></span>
-        <span></span>
+      <img src="Vector (3).png" class="logo" />
+      <div class="hamburger" onclick="toggleMenu()">
+        <div></div>
+        <div></div>
+        <div></div>
       </div>
       <div class="nav-links">
         <a href="#features">Explore</a>
         <a href="#showcase">Events</a>
-        <a href="#demo">Contact Us</a>
+        <a href="#demo">Contact</a>
         <a href="#reviews">Reviews</a>
         <a href="#faq">FAQ</a>
         <a href="#" class="cta-button">Sign Up</a>
       </div>
     </nav>
 
-    <div class="mobile-menu">
-      <a href="#features">Explore
-      <a href="#showcase">Events</a>
-      <a href="#demo">Contact us</a>
-      <a href="#reviews">Reviews</a>
-      <a href="#faq">FAQ</a>
-      <a href="#" class="cta-button">Sign Up</a>
-    </div>
     <section id="hero">
       <div id="particles-js"></div>
-      
-        <div class="hero-content">
-          <h1>Empower Your Future with AI Innovation</h1>
-          <p class="hero-subtitle">
-            Join a vibrant community of learners and innovators. Collaborate on
-            exciting AI Projects that shape the future
-          </p>
-      
-          <button class="cta-button">Join Us</button>
-          <button class="cta-button outline">Learn More</button>
+      <div class="hero-content">
+        <h1>Next-Gen AI Innovation Platform</h1>
+        <p class="hero-subtitle">
+          Collaborate with global innovators to shape the future of artificial
+          intelligence through cutting-edge research and development.
+        </p>
+        <div class="hero-buttons">
+          <button class="cta-button">Join Network</button>
+          <button class="cta-button">Explore Labs</button>
         </div>
-      
+      </div>
     </section>
 
-    <section id="home" class="section">
-      <div class="section-content">
-        <div class="section pop-in delay-3">
-          <h2>Empowering AI Innovation and Education</h2>
-          <p>
-            At Gen AI Network (we are dedicated to fostering a vibrant community
-            that champions AI innovation and education. Our mission is to equip
-            individuals with the skills and knowledge necessary to thrive in the
-            ever evolving world of artificial intelligence).
-          </p>
-           <button class="cta-button">Join Us</button>
+    <!-- Features Section -->
+    <section id="features" class="section">
+      <h2 class="section-title">Explore Our Exciting Programs</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <h3>Advanced AI Workshops</h3>
+          <p>Hands-on sessions with industry leaders and researchers</p>
         </div>
-        <div class="section-image">
-          <img src="image.jpg" alt="Gen AI Network" />
+        <div class="feature-card">
+          <h3>Global Hackathons</h3>
+          <p>Compete in world-class AI development challenges</p>
         </div>
-      
+        <div class="feature-card">
+          <h3>Research Collaboration</h3>
+          <p>Join multidisciplinary teams working on breakthrough projects</p>
+        </div>
+      </div>
     </section>
 
-   <section id="partners" class="partners">
+    <!-- Partners Section -->
+    <section id="partners" class="section">
       <h2 class="section-title">Meet our Partners</h2>
       <div class="partners-grid">
-        <div class="partner-logo floating">
+        <div class="partner-logo">
           <img src="download (42)_prev_ui.png" alt="Partner 1" />
         </div>
-        <div class="partner-logo floating">
+        <div class="partner-logo">
           <img src="download (23)_prev_ui.png" alt="Partner 2" />
         </div>
-        <div class="partner-logo floating">
+        <div class="partner-logo">
           <img src="images (6)_prev_ui.png" alt="Partner 3" />
         </div>
-        <div class="partner-logo floating">
+        <div class="partner-logo">
           <img src="Group 27 (2).png" alt="Partner 4" />
         </div>
       </div>
     </section>
 
-    
-    <section id="features">
-      <p>Innovate</p>
-      <div class="section slide-left">
-        <h2 class="section-title">Explore Our Exciting Programs</h2>
-        <div class="features-grid">
-          <div class="feature-card">
-            <h3>Engaging Hackathon Track Awaits You</h3>
-            <p>Compete in our Hackathon to showcase your talent.</p>
-          </div>
-          <div class="feature-card">
-            <h3>Learn from the Best in the Field</h3>
-            <p>Our Expert Mentors guide you every step of the way.</p>
-          </div>
-          <div class="feature-card">
-            <h3>Join a Community of Innovators</h3>
-            <p>Connect with like-minded individuals passionate about AI.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    
-    <section id="demo">
-      <div class="section pop-in delay-3">
-        <h2 class="section-title">Send us a review</h2>
-        <div class="demo-container">
-          <textarea
-            class="demo-input"
-            placeholder="Describe what you want to create..."
-          ></textarea>
-          <button class="cta-button">send</button>
-        </div>
-      </div>
-    </section>
-
-    <section id="reviews" class="reviews">
-      <div class="section slide-right delay-1">
-        <h2 class="section-title">Our Testimonials</h2>
-        <div class="review-cards">
-          <div class="review-card glowing-border">
-            <div class="reviewer-image"></div>
-            <h3>Sarah Johnson</h3>
+    <!-- Showcase Section -->
+    <section id="showcase" class="section">
+      <h2 class="section-title">Events</h2>
+      <div class="showcase-grid">
+        <div class="showcase-item">
+          <div class="showcase-image"></div>
+          <div class="showcase-content">
+            <h3>AI Innovation Workshop</h3>
             <p>
-              "Since I joined I've learnt alot and improved alot in the AI
-              space. The results are simply amazing!"
+              Deep dive into AI concepts with hands-on activities and expert
+              guidance.
             </p>
+            <button class="cta-button">View Event</button>
           </div>
-          <div class="review-card glowing-border">
-            <div class="reviewer-image"></div>
-            <h3>Michael Chen</h3>
+        </div>
+        <div class="showcase-item">
+          <div class="showcase-image"></div>
+          <div class="showcase-content">
+            <h3>AI Challenge Hackathon</h3>
             <p>
-              "Incredible tool for both professionals and beginners. The
-              training sessions are intuitive and the trainers are outstanding."
+              Collaborate with peers to solve real-world AI problems and
+              showcase your skills.
             </p>
+            <button class="cta-button">View Event</button>
           </div>
-          <div class="review-card glowing-border">
-            <div class="reviewer-image"></div>
-            <h3>Emma Davis</h3>
+        </div>
+        <div class="showcase-item">
+          <div class="showcase-image"></div>
+          <div class="showcase-content">
+            <h3>The Future of AI</h3>
             <p>
-              "The speed and quality of generated content have helped me scale
-              my business exponentially."
+              Explore the trends and innovations in AI technology with industry
+              leaders.
             </p>
+            <button class="cta-button">View Event</button>
           </div>
         </div>
       </div>
     </section>
-    
-<section id="showcase">
-      <div class="section pop-in delay-3">
-        <h2 class="section-title">Events</h2>
-        <div class="showcase-grid">
-          <div class="showcase-item">
-            <div class="showcase-image"></div>
-            <button class="cta-button outline">View Event</button>
-            <div class="showcase-content">
-              <h3>AI innovation Workshop. 9th February 2025</h3>
-              <p>
-                "Deep Dive into AI concepts with hands on activities and expert guidance.
-              </p>
-            </div>
-          </div>
-          <div class="showcase-item">
-            <div class="showcase-image"></div>
-            <button class="cta-button outline">View Event</button>
-            <div class="showcase-content">
-              <h3>AI Challenge Hackathon. 9th February 2025</h3>
-              <p>Collaborate with peers to solve real World AI problems and show case your skills</p>
-            </div>
-          </div>
-          <div class="showcase-item">
-            <div class="showcase-image"></div>
-            <button class="cta-button outline">View Event</button>
-            <div class="showcase-content">
-              <h3>The future of AI</h3>
-              <p>"Explore the trends and innovation in AI technology with Industry Leaders.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-       <button class="cta-button">More</button>
-    </section>
 
-    
-
-    <section id="faq" class="faq">
+    <!-- FAQ Section -->
+    <section id="faq" class="section">
       <h2 class="section-title">Frequently Asked Questions</h2>
       <div class="faq-container">
-        <div class="faq-item glowing-border">
+        <div class="faq-item">
           <div class="faq-question">
             <h3>What is Gen AI Network?</h3>
             <span class="toggle">+</span>
           </div>
           <div class="faq-answer">
             <p>
-              It is a network of proffesionals who are interested and
-              enthuisiastic about the Generative AI Space
+              It is a network of professionals who are interested and
+              enthusiastic about the Generative AI space.
             </p>
           </div>
         </div>
-        <div class="faq-item glowing-border">
+        <div class="faq-item">
           <div class="faq-question">
-            <h3>What kind of Professionals are welcomed?</h3>
+            <h3>What kind of professionals are welcomed?</h3>
             <span class="toggle">+</span>
           </div>
           <div class="faq-answer">
             <p>
-              From Newbies to experts, or those who are interested in the
-              Generative AI space: this includes; students,
-              workers,Professionals, enthusiasts and beginners
+              From newbies to experts, or those who are interested in the
+              Generative AI space: this includes students, workers,
+              professionals, enthusiasts, and beginners.
             </p>
           </div>
         </div>
-        <div class="faq-item glowing-border">
+        <div class="faq-item">
           <div class="faq-question">
             <h3>Is there a free program?</h3>
             <span class="toggle">+</span>
@@ -949,13 +473,14 @@
           <div class="faq-answer">
             <p>
               Yes! We offer a completely free program that helps train you and
-              give you the skills necessary for your growth .
+              give you the skills necessary for your growth.
             </p>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- Footer -->
     <footer>
       <div class="footer-content">
         <div class="footer-section">
@@ -979,287 +504,80 @@
     </footer>
 
     <script>
-      // Initialize particles.js
+      // GSAP Animations
+      gsap.registerPlugin(ScrollTrigger);
+
+      gsap.utils.toArray(".section").forEach((section, i) => {
+        gsap.from(section, {
+          scrollTrigger: {
+            trigger: section,
+            start: "top bottom",
+            end: "top center",
+            scrub: 1,
+          },
+          opacity: 0,
+          y: 100,
+          duration: 1,
+          ease: "power4.out",
+        });
+      });
+
+      // Particle Network
       particlesJS("particles-js", {
         particles: {
-                number: {
-                    value: 80,
-                    density: {
-                        enable: true,
-                        value_area: 800
-                    }
-                },
-                color: {
-                    value: '#6366f1'
-                },
-                shape: {
-                    type: 'circle'
-                },
-                opacity: {
-                    value: 0.5,
-                    random: false
-                },
-                size: {
-                    value: 3,
-                    random: true
-                },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: '#22d3ee',
-                    opacity: 0.4,
-                    width: 1
-                },
-                move: {
-                    enable: true,
-                    speed: 2,
-                    direction: 'none',
-                    random: false,
-                    straight: false,
-                    out_mode: 'out',
-                    bounce: false
-                }
-            },
-            interactivity: {
-                detect_on: 'canvas',
-                events: {
-                    onhover: {
-                        enable: true,
-                        mode: 'grab'
-                    },
-                    onclick: {
-                        enable: true,
-                        mode: 'push'
-                    },
-                    resize: true
-                }
-            },
-            retina_detect: true
+          number: { value: 150, density: { enable: true, value_area: 800 } },
+          color: { value: "#FFD700" },
+          shape: { type: "circle" },
+          opacity: { value: 0.5, random: false },
+          size: { value: 3, random: true },
+          line_linked: {
+            enable: true,
+            distance: 150,
+            color: "#FFA500",
+            opacity: 0.4,
+            width: 1,
+          },
+          move: {
+            enable: true,
+            speed: 2,
+            direction: "none",
+            random: false,
+            straight: false,
+            out_mode: "out",
+            bounce: false,
+          },
+        },
+        interactivity: {
+          detect_on: "canvas",
+          events: {
+            onhover: { enable: true, mode: "repulse" },
+            onclick: { enable: true, mode: "push" },
+            resize: true,
+          },
+        },
+        retina_detect: true,
+      });
+
+      // FAQ Functionality
+      document.querySelectorAll(".faq-question").forEach((question) => {
+        question.addEventListener("click", () => {
+          const faqItem = question.parentElement;
+          faqItem.classList.toggle("active");
+          question.querySelector(".toggle").textContent =
+            faqItem.classList.contains("active") ? "−" : "+";
         });
+      });
 
-
-      // Smooth scroll for navigation links
+      // Smooth Scroll Behavior
       document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
         anchor.addEventListener("click", function (e) {
           e.preventDefault();
           document.querySelector(this.getAttribute("href")).scrollIntoView({
             behavior: "smooth",
+            block: "start",
           });
         });
       });
-
-      // Simple demo interaction
-      const demoInput = document.querySelector(".demo-input");
-      const demoButton = document.querySelector(".demo-container .cta-button");
-
-      demoButton.addEventListener("click", () => {
-        if (demoInput.value.trim() !== "") {
-          alert(
-            "Demo feature: In a real application, this would generate content based on your input!"
-          );
-        }
-      });
-
-      // Mobile menu functionality
-     const hamburger = document.querySelector(".hamburger");
-const mobileMenu = document.querySelector(".mobile-menu");
-
-// Toggle menu when hamburger is clicked
-hamburger.addEventListener("click", () => {
-  hamburger.classList.toggle("active");
-  mobileMenu.classList.toggle("active");
-});
-
-// Close menu when clicking outside of it
-document.addEventListener("click", (event) => {
-  const isClickInsideMenu = mobileMenu.contains(event.target);
-  const isClickOnHamburger = hamburger.contains(event.target);
-
-  if (!isClickInsideMenu && !isClickOnHamburger) {
-    hamburger.classList.remove("active");
-    mobileMenu.classList.remove("active");
-  }
-});
-
-// Optional: Close menu when a menu item is clicked
-mobileMenu.addEventListener("click", (event) => {
-  if (event.target.tagName === 'A') {
-    hamburger.classList.remove("active");
-    mobileMenu.classList.remove("active");
-  }
-});
-
-
-
-
-
-      // FAQ functionality
-      document.querySelectorAll(".faq-question").forEach((question) => {
-        question.addEventListener("click", () => {
-          const faqItem = question.parentElement;
-          faqItem.classList.toggle("active");
-          const toggle = question.querySelector(".toggle");
-          toggle.textContent = faqItem.classList.contains("active") ? "-" : "+";
-        });
-      });
-
-      // GSAP Animations
-      gsap.registerPlugin(ScrollTrigger);
-
-      // Animate sections on scroll
-      gsap.utils.toArray("section").forEach((section) => {
-        gsap.from(section, {
-          opacity: 0,
-          y: 50,
-          duration: 1,
-          scrollTrigger: {
-            trigger: section,
-            start: "top 80%",
-            end: "top 20%",
-            scrub: 1,
-          },
-        });
-      });
-
-      // Animate review cards
-      gsap.to(".review-card", {
-        x: -20,
-        duration: 1,
-        stagger: 0.2,
-        scrollTrigger: {
-          trigger: ".reviews",
-          start: "top center",
-          end: "bottom center",
-          scrub: 1,
-        },
-      });
-
-      // Partner logos floating animation
-      gsap.to(".partner-logo", {
-        y: -20,
-        duration: 2,
-        stagger: 0.3,
-        repeat: -1,
-        yoyo: true,
-        ease: "power1.inOut",
-      });
-
-      // JavaScript for advanced animations and scroll-triggered effects
-      document.addEventListener("DOMContentLoaded", () => {
-        const sections = document.querySelectorAll(".section");
-
-        const observerOptions = {
-          root: null,
-          rootMargin: "0px",
-          threshold: 0.1,
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.style.opacity = "1";
-            }
-          });
-        }, observerOptions);
-
-        sections.forEach((section) => {
-          observer.observe(section);
-        });
-
-        // Optional: Add hover effects
-        sections.forEach((section) => {
-          section.addEventListener("mouseenter", () => {
-            section.style.transform = "scale(1.02)";
-            section.style.boxShadow = "0 15px 40px rgba(34, 211, 238, 0.3)";
-          });
-
-          section.addEventListener("mouseleave", () => {
-            section.style.transform = "scale(1)";
-            section.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.5)";
-          });
-        });
-      });
-
-     document.addEventListener("DOMContentLoaded", () => {
-  const sections = document.querySelectorAll(".section");
-  
-  // Framer Motion-like Intersection Observer
-  const createScrollAnimation = (options = {}) => {
-    const defaultOptions = {
-      threshold: 0.1,
-      once: true,
-      animations: {
-        initial: { opacity: 0, y: 50 },
-        animate: { opacity: 1, y: 0 },
-        transition: {
-          duration: 0.6,
-          ease: "easeOut"
-        }
-      }
-    };
-
-    const config = { ...defaultOptions, ...options };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const element = entry.target;
-          
-          // Apply Framer Motion-like animation styles
-          element.style.opacity = config.animations.animate.opacity;
-          element.style.transform = `translateY(${config.animations.animate.y}px)`;
-          element.style.transition = `
-            opacity ${config.animations.transition.duration}s ${config.animations.transition.ease},
-            transform ${config.animations.transition.duration}s ${config.animations.transition.ease}
-          `;
-
-          if (config.once) {
-            observer.unobserve(element);
-          }
-        } else if (!config.once) {
-          // Revert to initial state if not using 'once' mode
-          element.style.opacity = config.animations.initial.opacity;
-          element.style.transform = `translateY(${config.animations.initial.y}px)`;
-        }
-      });
-    }, {
-      threshold: config.threshold
-    });
-
-    // Observe sections
-    sections.forEach(section => observer.observe(section));
-
-    return observer;
-  };
-
-  // Example usage with custom animation
-  createScrollAnimation({
-    threshold: 0.2,
-    animations: {
-      initial: { opacity: 0, y: 100 },
-      animate: { opacity: 1, y: 0 },
-      transition: {
-        duration: 0.8,
-        ease: "cubic-bezier(0.4, 0, 0.2, 1)"
-      }
-    }
-  });
-
-  // Optional: Add interactive hover effects
-  sections.forEach(section => {
-    section.addEventListener("mouseenter", () => {
-      section.style.transform = "scale(1.02)";
-      section.style.boxShadow = "0 15px 40px rgba(34, 211, 238, 0.3)";
-    });
-
-    section.addEventListener("mouseleave", () => {
-      section.style.transform = "scale(1)";
-      section.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.1)";
-    });
-  });
-});
-
-
     </script>
   </body>
 </html>
